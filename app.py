@@ -1,5 +1,6 @@
 
 from asyncio.subprocess import PIPE
+from pathlib import Path
 from pyexpat import model
 from random import randint
 from sys import stdout
@@ -56,7 +57,10 @@ class tkinterApp(tk.Tk):
   
         self.frames = {} 
 
-        self.show_frame(AttendancePage)
+        if(Path('facefeatures_new_model.h5').exists()):
+            self.show_frame(AttendancePage)
+        else:
+            self.show_frame(AddFace)
   
     def show_frame(self, cont):
                 
@@ -214,12 +218,12 @@ class App:
 
 class MyVideoCapture:
     def __init__(self, video_source=0):
-        
+         
         classF = open('classes.json')
         self.classes = json.load(classF)
         classes = self.classes
 
-        print("Available Classes", classes)
+        print("Available Classes", classes) 
         self.model = load_model('facefeatures_new_model.h5')
         self.vid = cv2.VideoCapture(video_source)
         if not self.vid.isOpened():
